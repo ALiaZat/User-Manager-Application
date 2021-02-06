@@ -1,0 +1,31 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+hr {
+    margin: 1rem 0;
+    color: inherit;
+    background-color: white;
+    border: 0;
+    opacity: 0.25;
+}
+
+hr:not([size]) {
+    height: 0.1px;
+}
+
+.nav-options {
+    color: #5ea1a3;
+    text-align: center;
+    font-size: x-large;
+    padding: 5px;
+}
+
+.title {
+    color: #5ea1a3;
+    text-align: center;
+    font-size: xx-large;
+    padding: 5px;
+}
+
