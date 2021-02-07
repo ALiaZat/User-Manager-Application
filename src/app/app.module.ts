@@ -11,6 +11,7 @@ import { AboutPageComponent } from './about-page/about-page.component';
 import { UserPageComponent } from './user-page/user-page.component';
 import { EditUserInfoComponent } from './edit-user-info/edit-user-info.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     NgbModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

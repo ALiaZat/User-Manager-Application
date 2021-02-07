@@ -11,6 +11,7 @@ export class FirebaseServiceService {
   getUsers(){
     return this.db.collection('users').snapshotChanges();
   }
+  
   searchForUser(searchValue: string){
     return this.db.collection('users',ref => ref.where('nameToSearch', '>=', searchValue)
       .where('nameToSearch', '<=', searchValue + '\uf8ff'))

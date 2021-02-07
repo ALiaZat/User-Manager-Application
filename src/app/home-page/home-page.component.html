@@ -4,17 +4,34 @@
 <div class="card main-section">
     <div class="card-body add-users" style="padding-top: 5.8px;">
         <span style="color: black; font-size: x-large; ">Add a new User</span><hr>
-        <label>Name </label>
-        <input type="text"><br><br>
-        <label>Email </label>
-        <input type="email"><br><br>
-        <label>Role</label>
-        <input type="text"><br><br>
-        <label>Status</label>
-        <input type="text"><br><br>
-        <label>Creation Date</label>
-        <input type="date"><br><br>
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (onclick)="addUser();">Add this user</button>
+        <form [formGroup]="userForm">
+            <div>
+                <label>Name &#160; </label>
+                <!-- <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"><br>
+                <div *ngIf="userForm.controls.name.hasError('required')"><span>Name is required</span></div><br> -->
+                <label>Avatar &#160; </label>
+                <input type="file"><br><br>
+                <label>Email &#160;</label>
+                <input type="email"><br><br>
+                <label>Role &#160; </label>
+                    <select name="roles"> 
+                        <option value='none' selected disabled hidden>select a role</option>
+                        <option value="User">User</option>
+                        <option value="Superuser">Superuser</option>
+                    </select><br><br>
+                <label>Status &#160;</label>
+                    <select name="status">
+                        <option value='none' selected disabled hidden>select a status</option>
+                        <option value="Active">Active</option>
+                        <option value="Not avaliable">Not avaliable</option>
+                        <option value="Busy">Busy</option>
+                        <option value="In a meet">In a meet</option>
+                    </select><br><br>
+                <label>Creation Date &#160;</label>
+                <input type="date"><br><br>
+            </div>
+        </form>
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (onclick)="addUser()">Add this user</button>
 
     </div>
     <div class="card-body search-for-user" style="padding-top: 5px;">
