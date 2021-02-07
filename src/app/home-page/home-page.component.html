@@ -3,42 +3,56 @@
 </div>
 <div class="card main-section">
     <div class="card-body add-users" style="padding-top: 5.8px;">
-        <span style="color: black; font-size: x-large; ">Add a new User</span><hr>
+        <span style="color: black; font-size: x-large; ">Add a new User</span>
+        <hr>
         <form [formGroup]="userForm">
             <div>
                 <label>Name &#160; </label>
-                <!-- <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"><br>
-                <div *ngIf="userForm.controls.name.hasError('required')"><span>Name is required</span></div><br> -->
+                <input type="text" formControlName="name"><br>
+                <div *ngIf="userForm.controls.name.hasError('required')"><span>Name is required</span></div><br>
+
                 <label>Avatar &#160; </label>
-                <input type="file"><br><br>
+                <input type="file" formControlName="avatar"><br>
+                <div *ngIf="userForm.controls.avatar.hasError('required')"><span>Avatar is required</span></div><br>
+
                 <label>Email &#160;</label>
-                <input type="email"><br><br>
+                <input type="email" formControlName="email"><br>
+                <div *ngIf="userForm.controls.email.hasError('required')"><span>Email is required</span></div><br>
+
                 <label>Role &#160; </label>
-                    <select name="roles"> 
-                        <option value='none' selected disabled hidden>select a role</option>
-                        <option value="User">User</option>
-                        <option value="Superuser">Superuser</option>
-                    </select><br><br>
+                <select name="roles" formControlName="role">
+                    <option value='none' selected disabled hidden>select a role</option>
+                    <option value="User">User</option>
+                    <option value="Superuser">Superuser</option>
+                </select><br>
+                <div *ngIf="userForm.controls.role.hasError('required')"><span>Role is required</span></div><br>
+
                 <label>Status &#160;</label>
-                    <select name="status">
-                        <option value='none' selected disabled hidden>select a status</option>
-                        <option value="Active">Active</option>
-                        <option value="Not avaliable">Not avaliable</option>
-                        <option value="Busy">Busy</option>
-                        <option value="In a meet">In a meet</option>
-                    </select><br><br>
+                <select name="status" formControlName="status">
+                    <option value='none' selected disabled hidden>select a status</option>
+                    <option value="Active">Active</option>
+                    <option value="Not avaliable">Not avaliable</option>
+                    <option value="Busy">Busy</option>
+                    <option value="In a meet">In a meet</option>
+                </select><br>
+                <div *ngIf="userForm.controls.status.hasError('required')"><span>Status is required</span></div><br>
+
                 <label>Creation Date &#160;</label>
-                <input type="date"><br><br>
+                <input type="date" formControlName="crDate"><br>
+                <div *ngIf="userForm.controls.crDate.hasError('required')"><span>Creation date is required</span></div>
+                <br>
             </div>
         </form>
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (onclick)="addUser()">Add this user</button>
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (onclick)="addUser()">Add this
+            user</button>
 
     </div>
     <div class="card-body search-for-user" style="padding-top: 5px;">
-          <div class="input-group" style="width: 300px; justify-self: center;">
+        <div class="input-group" style="width: 300px; justify-self: center;">
             <input type="text" class="form-control" placeholder="Type here the Username">
-            <button class="btn btn-outline-secondary" style="height: 38px;" type="button" id="button-addon2">Search</button><hr>
-          </div>
+            <button class="btn btn-outline-secondary" style="height: 38px;" type="button"
+                id="button-addon2">Search</button>
+            <hr>
+        </div>
     </div>
 </div>
-

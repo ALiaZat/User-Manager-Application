@@ -28,6 +28,9 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get f() { return this.userForm.controls; }
+
+
   public addUser(): void {
     let newUser = new User(2, 'name', 'email', 'role');
     this.users.push(newUser);

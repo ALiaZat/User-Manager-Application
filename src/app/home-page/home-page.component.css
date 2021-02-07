@@ -53,6 +53,6 @@ hr:not([size]) {
 }
 .add-users {
     width: 50%;
-    height: 450px;
+    height: 600px;
     border: 1px solid black;
 }
