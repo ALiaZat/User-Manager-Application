@@ -1,10 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FirebaseService } from '../services/firebase-service.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-class User {
-  
-  constructor (id: number, name: string, email: string, role: string){}
-}
+
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -12,7 +10,10 @@ class User {
 })
 
 export class HomePageComponent implements OnInit {
-  users: any;
+  
+  searchValue: any;
+  users: Array<any> = [];
+  name_filtered_users: Array<any> = [];
 
   userForm = new FormGroup({
     name: new FormControl('',[Validators.required]),
@@ -23,18 +24,33 @@ export class HomePageComponent implements OnInit {
     crDate: new FormControl('',[Validators.required]),
 
     },);
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(private formBuilder: FormBuilder,public firebaseService: FirebaseService) { }
 
-  ngOnInit(): void {
-  }
+    ngOnInit() {
+      this.getData();
+    }
+  
+    onSubmit(){
+      this.firebaseService.addUser(this.userForm.value);
+    }
+    getData(){
+      this.firebaseService.getUsers()
+      .subscribe(result => {
+        this.users = result;
+        this.name_filtered_users = result;
+      })
+    }
+
+    searchByName(){
+      let value = this.searchValue.toLowerCase();
+      this.firebaseService.searchForUser(value)
+      .subscribe(result => {
+        this.name_filtered_users = result;
+        this.users = result;
+      })
+    }
+    
 
   get f() { return this.userForm.controls; }
-
-
-  public addUser(): void {
-    let newUser = new User(2, 'name', 'email', 'role');
-    this.users.push(newUser);
-    console.log('user is added');
-}
 
 }
