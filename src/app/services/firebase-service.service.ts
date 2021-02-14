@@ -1,45 +1,98 @@
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 import { Form } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { User } from '../models/user';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
-  firestore: any;
+
+  [x: string]: any;
 
 
-  constructor(public db: AngularFirestore) { }
 
+  usersList!: AngularFireList<any>;
+  user!: AngularFireObject<any>;
 
-  getUsers() {
-    return this.db.collection('users').snapshotChanges();
+  constructor(private afs: AngularFireDatabase) { }
+
+  addUser(user: User) {
+    this.afs.list('/users').push({
+      $id: user.$id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+      role: user.role,
+      status: user.status,
+      crdate: user.crDate,
+    })
   }
 
-  searchForUser(searchValue: string) {
-    return this.db.collection('users', ref => ref.where('nameToSearch', '>=', searchValue)
-      .where('nameToSearch', '<=', searchValue + '\uf8ff'))
-      .snapshotChanges()
+  getUser(id: string) {
+    this.user = this.afs.object('users-list/' + id);
+    return this.user;
+  }
+  getAllUsers() {
+    this.usersRef = this.afs.list('users-list');
+    return this.usersList;
+  }
+  updateUser(user: User) {
+    this.user.update({
+      $id: user.$id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+      role: user.role,
+      status: user.status,
+      crdate: user.crDate,
+    })
+  }
+  deleteUser(id: string) {
+    this.userRef = this.afs.object('users-list/' + id);
+    this.userRef.remove();
   }
 
-  addUser(user: any) {
-    // console.log(user);
-    // return this.db.collection('users').add({
-    //   name: user.name,
-    //   email: user.email,
-    //   avatar: user.avatar,
-    //   role: user.role,
-    //   status: user.status,
-    //   crDate: user.crDate
-    // });
-    return new Promise<any>((resolve, reject) =>{
-      this.db
-          .collection("coffeeOrders")
-          .add(user)
-          .then(res => {}, err => reject(err));
-  });
-  }
+  // userCollection: AngularFirestoreCollection<User>;
+  // users: Observable<User[]>;
+  // userDoc: AngularFirestoreDocument<User>;
 
+  // constructor(public afs: AngularFirestore) { 
+  //   // this.users = this.afs.collection('users').snapshotChanges();
+
+  //   this.userCollection = this.afs.collection('users', ref => ref.orderBy('name','asc'));
+
+  //   this.users = this.userCollection.snapshotChanges().map((changes: any[]) => {
+  //     return changes.map((a: { payload: { doc: { data: () => User; id: string; }; }; }) => {
+  //       const data = a.payload.doc.data() as User;
+  //       data.$id = a.payload.doc.id;
+  //       return data;
+  //     });
+  //   });
+  // }
+
+  // getUsers(){
+  //   return this.users;
+  // }
+
+  // addUser(user: User){
+  //   this.userCollection.add(user);
+  // }
+
+  // deleteUser(user: User){
+  //   this.userDoc = this.afs.doc(`items/${user.$id}`);
+  //   this.userDoc.delete();
+  // }
+
+  // updateUser(user: User){
+  //   this.userDoc = this.afs.doc(`items/${user.$id}`);
+  //   this.userDoc.update(user);
+  // }
 
 }
+
+
+

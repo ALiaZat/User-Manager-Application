@@ -1,23 +1,81 @@
 <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Name</th>
-        <th scope="col">Email</th>
-        <th scope="col">Role</th>
-        <th scope="col">Status</th>
-        <th scope="col">Cr. Date</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- <tr *ngFor="let user of users">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Role</th>
+      <th scope="col">Status</th>
+      <th scope="col">Cr. Date</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <!-- <tbody>
+      <tr *ngFor="let user of users">
           <th scope="row">{{user.ID}}</th>
-          <td id="img-part"><img [src]="user.img">{{user.name}}</td>
+          <td id="img-part"><img [src]="user.avatar">{{user.name}}</td>
           <td>{{user.email}}</td>
           <td>{{user.role}}</td>
           <td>{{user.status}}</td>
           <td>{{user.creationDate}}</td>
-      </tr> -->
+      </tr>
+    </tbody> -->
+  <tbody>
+    <tr *ngFor="let user of user">
+      <th scope="row">{{user.$id}}</th>
+      <td>
+        <img width="50px" [src]="user.avatar ">{{user.name}}
+      </td>
+      <td>{{user.email}}</td>
+      <td>{{user.role}}</td>
+      <td>{{user.status}}</td>
+      <td>{{user.crDate | date:'shortDate'}}</td>
+      <td class="row">
+        <i (click)="deleteUser($event, user)" class="fa fa-delete"></i>
+        <i (click)="updateUser(user)" class="fa fa-pencil"></i>
+      </td>
+    </tr>
   </tbody>
-  </table>
+</table>
+
+<div *ngIf="editForm" class='pop'>
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit(userToUpdate)">
+    <div>
+      <label>Name &#160; </label>
+      <input type="text" formControlName="name" [(ngModel)]="userToUpdate.name"><br>
+      <div *ngIf="userForm.controls.name.hasError('required')"><span>Name is required</span></div><br>
+
+      <label>Avatar &#160; </label>
+      <input type="file" formControlName="avatar" [(ngModel)]="userToUpdate.avatar"><br>
+      <div *ngIf="userForm.controls.avatar.hasError('required')"><span>Avatar is required</span></div><br>
+
+      <label>Email &#160;</label>
+      <input type="email" formControlName="email" [(ngModel)]="userToUpdate.email"><br>
+      <div *ngIf="userForm.controls.email.hasError('required')"><span>Email is required</span></div><br>
+
+      <label>Role &#160; </label>
+      <select name="roles" formControlName="role" [(ngModel)]="userToUpdate.role">
+        <option value='none' selected disabled hidden>select a role</option>
+        <option value="User">User</option>
+        <option value="Administrator">Administrator</option>
+      </select><br>
+      <div *ngIf="userForm.controls.role.hasError('required')"><span>Role is required</span></div><br>
+
+      <label>Status &#160;</label>
+      <select name="status" formControlName="status" [(ngModel)]="userToUpdate.status">
+        <option value='none' selected disabled hidden>select a status</option>
+        <option value="Active">Active</option>
+        <option value="Locked">Locked</option>
+        <option value="Disabled">Disabled</option>
+      </select><br>
+      <div *ngIf="userForm.controls.status.hasError('required')"><span>Status is required</span></div><br>
+
+      <label>Creation Date &#160;</label>
+      <input type="date" formControlName="crDate" [(ngModel)]="userToUpdate.crDate"><br>
+      <div *ngIf="userForm.controls.crDate.hasError('required')"><span>Creation date is required</span></div>
+      <br>
+    </div>
+  </form>
+  <button class="btn btn-outline-secondary" type="button">Submit</button>
+
+</div>

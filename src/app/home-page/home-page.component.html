@@ -8,19 +8,19 @@
         <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
             <div>
                 <label>Name &#160; </label>
-                <input type="text" formControlName="name"><br>
+                <input type="text" formControlName="name"  [(ngModel)]="user.name"><br>
                 <div *ngIf="userForm.controls.name.hasError('required')"><span>Name is required</span></div><br>
 
                 <label>Avatar &#160; </label>
-                <input type="file" formControlName="avatar"><br>
+                <input type="file" formControlName="avatar"  [(ngModel)]="user.avatar" (change)="selectFile($event)"><br>
                 <div *ngIf="userForm.controls.avatar.hasError('required')"><span>Avatar is required</span></div><br>
 
                 <label>Email &#160;</label>
-                <input type="email" formControlName="email"><br>
+                <input type="email" formControlName="email"  [(ngModel)]="user.email"><br>
                 <div *ngIf="userForm.controls.email.hasError('required')"><span>Email is required</span></div><br>
 
                 <label>Role &#160; </label>
-                <select name="roles" formControlName="role">
+                <select name="roles" formControlName="role"  [(ngModel)]="user.role">
                     <option value='none' selected disabled hidden>select a role</option>
                     <option value="User">User</option>
                     <option value="Administrator">Administrator</option>
@@ -28,7 +28,7 @@
                 <div *ngIf="userForm.controls.role.hasError('required')"><span>Role is required</span></div><br>
 
                 <label>Status &#160;</label>
-                <select name="status" formControlName="status">
+                <select name="status" formControlName="status"  [(ngModel)]="user.status">
                     <option value='none' selected disabled hidden>select a status</option>
                     <option value="Active">Active</option>
                     <option value="Locked">Locked</option>
@@ -37,21 +37,35 @@
                 <div *ngIf="userForm.controls.status.hasError('required')"><span>Status is required</span></div><br>
 
                 <label>Creation Date &#160;</label>
-                <input type="date" formControlName="crDate"><br>
+                <input type="date" formControlName="crDate"  [(ngModel)]="user.crDate"><br>
                 <div *ngIf="userForm.controls.crDate.hasError('required')"><span>Creation date is required</span></div>
                 <br>
             </div>
         </form>
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (onclick)="onSubmit()">Add this
-            user</button>
+        <button class="btn btn-outline-secondary" type="button" routerLink="/user" (onclick)="onSubmit()">Add this user</button>
 
     </div>
     <div class="card-body search-for-user" style="padding-top: 5px;">
         <div class="input-group" style="width: 300px; justify-self: center;">
-            <input type="text" [(ngModel)]="searchValue" class="form-control" placeholder="Type here the Username" (ngModelChange)="searchByName">
+            <input type="text" [(ngModel)]="searchValue" class="form-control" placeholder="Type here the Username">
             <button class="btn btn-outline-secondary" style="height: 38px;" type="button"
                 id="button-addon2">Search</button>
             <hr>
         </div>
     </div>
+    <!-- <div class="card w-100 mb-3" style="max-width: 540px;" *ngFor="let user of user | filter: searchValue">
+        <div class="row no-gutters">
+            <div class="col-md-4 flex-center">
+                <img [src]='user.avatar' class="card-img">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title">{{user.name}}</h2>
+                    <p class="card-text">{{user.email}}</p>
+                    <p class="card-text p-0">Role: {{user.role}}</p>
+                    <p class="card-text p-0">Status: {{user.status}}</p>
+                </div>
+            </div>
+        </div>
+    </div> -->
 </div>

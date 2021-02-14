@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from '../services/firebase-service.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-home-page',
@@ -11,9 +12,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 export class HomePageComponent implements OnInit {
   
-  searchValue: any;
-  users: Array<any> = [];
-  name_filtered_users: Array<any> = [];
+  searchValue = "";
 
   userForm = new FormGroup({
     name: new FormControl('',[Validators.required]),
@@ -24,33 +23,61 @@ export class HomePageComponent implements OnInit {
     crDate: new FormControl('',[Validators.required]),
 
     },);
-    constructor(private formBuilder: FormBuilder,public firebaseService: FirebaseService) { }
+    
+    user: User = {
+      $id:'',
+      name: '',
+      avatar:'',
+      email:'',
+      role:'',
+      status:'',
+      crDate:''
+    }
+    submitted: boolean = false;
+    imageUrl: any;
 
+    constructor(private fbs: FirebaseService) { }
+  
     ngOnInit() {
-      this.getData();
+      this.fbs.getAllUsers();
+      this.userForm;
     }
   
-    onSubmit(){
-      this.firebaseService.addUser(this.userForm.value);
-    }
-    getData(){
-      this.firebaseService.getUsers()
-      .subscribe(result => {
-        this.users = result;
-        this.name_filtered_users = result;
-      })
-    }
-
-    searchByName(){
-      let value = this.searchValue.toLowerCase();
-      this.firebaseService.searchForUser(value)
-      .subscribe(result => {
-        this.name_filtered_users = result;
-        this.users = result;
-      })
-    }
+    // onSubmit(){
+    //   if(this.user.name != '' && this.user.avatar != '' && this.user.email != '' && this.user.role != '' && 
+    //   this.user.status != '' && this.user.crDate != ''){
+    //     this.asf.addUser(this.userForm.value);
+    //     this.user.$id = '';
+    //     this.user.name = '';
+    //     this.user.email = '';
+    //     this.user.role = '';
+    //     this.user.status = '';
+    //     this.user.crDate = '';
+    //   }
+    // }
     
+  onSubmit() {
+    console.warn(this.userForm.value);
+      this.submitted = true;
+      if (this.userForm.invalid) {
+        this.fbs.addUser(this.userForm.value);
+      }
+  }
 
-  get f() { return this.userForm.controls; }
+  selectFile(event : any) {
+		if(!event.target.files[0] || event.target.files[0].length == 0) {
+			return;
+		}
+		var mimeType = event.target.files[0].type;
+		if (mimeType.match(/image\/*/) == null) {
+			return;
+		}
+		var reader = new FileReader();
+		reader.readAsDataURL(event.target.files[0]);
+		reader.onload = (_event) => {
+			this.imageUrl = reader.result; 
+		}
+    
+  }
 
 }

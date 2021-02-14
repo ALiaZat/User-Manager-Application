@@ -9,17 +9,17 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { HomePageComponent } from './home-page/home-page.component';
 import { AboutPageComponent } from './about-page/about-page.component';
 import { UserPageComponent } from './user-page/user-page.component';
-import { EditUserInfoComponent } from './edit-user-info/edit-user-info.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FirebaseService } from './services/firebase-service.service';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     AboutPageComponent,
-    UserPageComponent,
-    EditUserInfoComponent
+    UserPageComponent
   ],
   imports: [
     BrowserModule,
@@ -28,9 +28,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Ng2SearchPipeModule
   ],
-  providers: [],
+  providers: [FirebaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
